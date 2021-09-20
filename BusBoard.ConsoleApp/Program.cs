@@ -22,11 +22,6 @@ namespace BusBoard
             List<Bus> bus_list = JsonConvert.DeserializeObject<List<Bus>>(response.Content);
 
             List<Bus> bus_list_sorted =  bus_list.OrderBy(o => o.timeToStation).ToList();
-            foreach (var bus in bus_list_sorted)
-            {
-                Console.WriteLine(bus.vehicleId+ " " + bus.timeToStation);
-            }
-            Console.WriteLine("TEST");
             for (int i = 0; i < 5; i++)
             {
                 Console.WriteLine(bus_list_sorted[i].Show());
