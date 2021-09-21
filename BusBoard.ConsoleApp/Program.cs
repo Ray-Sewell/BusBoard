@@ -8,46 +8,29 @@ using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
 
-namespace BusBoard
+namespace BusBoard.ConsoleApp
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
+        static void Main(string[] args)
+        {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            var rest_client = new RestClient("https://api.tfl.gov.uk/");
-            var request = new RestRequest("StopPoint/490008660N/Arrivals", DataFormat.Json);
-            var response = rest_client.Get(request);
+            Console.WriteLine("Please enter postcode");
+            var input = Console.ReadLine();
+            Console.WriteLine(FindPostCode(input).Show());
+            //List<Bus> bus_list = JsonConvert.DeserializeObject<List<Bus>>(response.Content);
 
-            List<Bus> bus_list = JsonConvert.DeserializeObject<List<Bus>>(response.Content);
-
-            List<Bus> bus_list_sorted =  bus_list.OrderBy(o => o.timeToStation).ToList();
-            for (int i = 0; i < 5; i++)
-            {
-                Console.WriteLine(bus_list_sorted[i].Show());
-            }
+            //List<Bus> bus_list_sorted =  bus_list.OrderBy(o => o.timeToStation).ToList();
             Console.ReadLine();
         }
-  }
-  class Bus
-    {
-        public string id;
-        public string vehicleId;
-        public string stationName;
-        public string destinationName;
-        public int timeToStation;
-        public Bus(string id, string vehicleId, string stationName, string destinationName, int timeToStation)
+        static PostCode FindPostCode(String input)
         {
-            this.id = id;
-            this.vehicleId = vehicleId;
-            this.stationName = stationName;
-            this.destinationName = destinationName;
-            this.timeToStation = timeToStation;
-        }
-        public String Show()
-        {
-            var info = "Bus ID: " + vehicleId + " from " + stationName + " to " + destinationName + " arriving in " + timeToStation + " seconds";
-            return info;
+            var client = new RestClient("https://api.postcodes.io/postcodes/");
+            var request = new RestRequest(input, DataFormat.Json);
+            var response = client.Get(request);
+            var postcode_raw = JsonConvert.DeserializeObject<PostCodeResult>(response.Content);
+
+            return postcode_raw.result;
         }
     }
 }

@@ -50,7 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bus.cs" />
+    <Compile Include="BusStop.cs" />
+    <Compile Include="BusStopResult.cs" />
     <Compile Include="Items.cs" />
+    <Compile Include="PostCode.cs" />
+    <Compile Include="PostCodeResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
