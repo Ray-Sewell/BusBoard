@@ -15,11 +15,10 @@ namespace BusBoard.ConsoleApp
         static void Main(string[] args)
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            Console.WriteLine("Please enter postcode\n");
-
-            var input = Console.ReadLine();
-            var postcode = FindPostCode(input);
-
+            Menu();
+        }
+        static void Post(PostCode postcode)
+        {
             foreach (BusStop bus_stop in FindBusStops(postcode).OrderBy(o => o.distance).ToList().Take(2))
             {
                 Console.WriteLine();
@@ -39,16 +38,50 @@ namespace BusBoard.ConsoleApp
                     }
                 }
             }
-
-            Console.ReadLine();
+        }
+        static void Menu()
+        {
+            bool on = true;
+            while(on)
+            {
+                Console.Clear();
+                Console.WriteLine("Please enter [1] to enter Postcode \nPlease enter [2] to Exit\n");
+                switch(Console.ReadLine())
+                {
+                    case "1": 
+                        Console.WriteLine("\nPlease enter a postcode to search\n");
+                        try 
+                        {
+                            var postcode = FindPostCode(Console.ReadLine());
+                            Post(postcode);
+                        }
+                        catch
+                        {
+                            Console.WriteLine("\nPostcode not found\n");
+                        }
+                        break;
+                    case "2": 
+                        Console.WriteLine("\nGoodbye <3\n");
+                        on = false;
+                        break;
+                    default: 
+                        Console.WriteLine("\nInvalid selection\n");
+                        break;
+                }
+                Console.ReadLine();
+            }
         }
         static PostCode FindPostCode(String input)
         {
             var client = new RestClient("https://api.postcodes.io/postcodes/");
             var request = new RestRequest(input, DataFormat.Json);
             var response = client.Get(request);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception("Postcode not found");
+                //throw new NullReferenceException("Postcode not found");
+            } 
             var postcode_raw = JsonConvert.DeserializeObject<PostCodeResult>(response.Content);
-
             return postcode_raw.result;
         }
         static List<BusStop> FindBusStops(PostCode input)
