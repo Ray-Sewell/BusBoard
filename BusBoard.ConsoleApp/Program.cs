@@ -17,10 +17,15 @@ namespace BusBoard.ConsoleApp
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             Console.WriteLine("Please enter postcode");
             var input = Console.ReadLine();
-            Console.WriteLine(FindPostCode(input).Show());
-            //List<Bus> bus_list = JsonConvert.DeserializeObject<List<Bus>>(response.Content);
-
-            //List<Bus> bus_list_sorted =  bus_list.OrderBy(o => o.timeToStation).ToList();
+            var postcode = FindPostCode(input);
+            foreach (BusStop bus_stop in FindBusStops(postcode).OrderBy(o => o.distance).ToList())
+            {
+                Console.WriteLine(bus_stop.Show());
+                foreach (Bus bus in FindBus(bus_stop).OrderBy(o => o.timeToStation).ToList())
+                {
+                    Console.WriteLine(bus.Show());
+                }
+            }
             Console.ReadLine();
         }
         static PostCode FindPostCode(String input)
@@ -31,6 +36,24 @@ namespace BusBoard.ConsoleApp
             var postcode_raw = JsonConvert.DeserializeObject<PostCodeResult>(response.Content);
 
             return postcode_raw.result;
+        }
+        static List<BusStop> FindBusStops(PostCode input)
+        {
+            var client = new RestClient("https://api.tfl.gov.uk/StopPoint/");
+            var request = new RestRequest("/?lat="+input.latitude+"&lon="+input.longitude+"&stopTypes=NaptanPublicBusCoachTram", DataFormat.Json);
+            var response = client.Get(request);
+            var bus_stops_raw = JsonConvert.DeserializeObject<BusStopResult>(response.Content);
+
+            return bus_stops_raw.stopPoints;
+        }
+        static List<Bus> FindBus(BusStop input)
+        {
+            var client = new RestClient("https://api.tfl.gov.uk/StopPoint/");
+            var request = new RestRequest(input.id+"/Arrivals", DataFormat.Json);
+            var response = client.Get(request);
+            var bus_list = JsonConvert.DeserializeObject<List<Bus>>(response.Content);
+
+            return bus_list;
         }
     }
 }
