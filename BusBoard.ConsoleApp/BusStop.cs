@@ -17,7 +17,7 @@ namespace BusBoard.ConsoleApp
         }
         public String Show()
         {
-            var info = "Bus Stop ID: " + id + " distance away " + distance + "m";
+            var info = "Bus Stop ID: " + id;
             return info;
         }
     }

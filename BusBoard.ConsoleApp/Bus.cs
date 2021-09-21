@@ -8,22 +8,23 @@ namespace BusBoard.ConsoleApp
 {
     class Bus
     {
-        public string id;
         public string vehicleId;
         public string stationName;
         public string destinationName;
         public int timeToStation;
-        public Bus(string id, string vehicleId, string stationName, string destinationName, int timeToStation)
+        public string timeFormatted;
+
+        public Bus(string vehicleId, string stationName, string destinationName, int timeToStation)
         {
-            this.id = id;
             this.vehicleId = vehicleId;
             this.stationName = stationName;
             this.destinationName = destinationName;
             this.timeToStation = timeToStation;
+            this.timeFormatted = timeToStation/60 + " minutes";
         }
         public String Show()
         {
-            var info = "Bus ID: " + vehicleId + " from " + stationName + " to " + destinationName + " arriving in " + timeToStation + " seconds";
+            var info = "Bus ID: " + vehicleId + " from " + stationName + " to " + destinationName + " arriving in approximately " + timeFormatted;
             return info;
         }
     }

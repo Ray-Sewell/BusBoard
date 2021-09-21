@@ -15,17 +15,31 @@ namespace BusBoard.ConsoleApp
         static void Main(string[] args)
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            Console.WriteLine("Please enter postcode");
+            Console.WriteLine("Please enter postcode\n");
+
             var input = Console.ReadLine();
             var postcode = FindPostCode(input);
-            foreach (BusStop bus_stop in FindBusStops(postcode).OrderBy(o => o.distance).ToList())
+
+            foreach (BusStop bus_stop in FindBusStops(postcode).OrderBy(o => o.distance).ToList().Take(2))
             {
+                Console.WriteLine();
                 Console.WriteLine(bus_stop.Show());
-                foreach (Bus bus in FindBus(bus_stop).OrderBy(o => o.timeToStation).ToList())
+       
+                var bus_list = FindBus(bus_stop);
+
+                if (bus_list.Count <= 0)
                 {
-                    Console.WriteLine(bus.Show());
+                    Console.WriteLine("No buses are available at this time");
+                } 
+                else
+                {
+                    foreach (Bus bus in bus_list.OrderBy(o => o.timeToStation).ToList().Take(5))
+                    {
+                        Console.WriteLine(bus.Show());
+                    }
                 }
             }
+
             Console.ReadLine();
         }
         static PostCode FindPostCode(String input)
