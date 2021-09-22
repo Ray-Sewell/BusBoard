@@ -1,24 +1,98 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow-x: hidden;
+    height:80vh;
+}
+nav {
+    display: flex;
+    width: 100vw;
+    background-color: #190933;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+ul {
+    display: flex;
+    list-style: none;
+    margin: 1em;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+li {
+    padding-left: 1em;
+    font-size: 1.2em;
+    font-weight:600;
+}
+
+a {
+    color: white;
+}
+
+a:hover {
+    color: #FCCA46;
+    text-decoration: none;
+}
+
+footer {
+    display: flex;
+    background-color: #190933;
+    width: 100vw;
+    color: white;
+    padding: 10px 10px 0px 10px;
+}
+#main-body {
+    width: 80vw;
+    margin: 1em 1em 1em 1em;
+}
+
+#index-board {
+    background-color: #665687;
+    color: white;
+    padding: 1em 1.5em 1em 1.5em;
+}
+#index-motto {
+    color: white;
+    font-weight: 500;
+    font-size: 1.35em;
+}
+h1 {
+    color: white;
+    font-weight: 700;
+    font-size: 4em;
+    font-style: italic;
+    letter-spacing: -3px;
+}
+#index-search {
+    background-color: #B084CC;
+    padding: 2em;
+}
+#Postcode {
+    color: black;
+    font-size: 1.6em;
+    font-weight: 500;
+    border: none;
+}
+#search-button {
+    background-color: #665687;
+    color: white;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: none;
+    font-size: 1.6em;
+    font-weight: 700;
+    padding: 0.3em 0.5em 0.3em 0.5em;
+}
+
+#postcode-form {
+    display:flex;
+    width: 5em;
 }

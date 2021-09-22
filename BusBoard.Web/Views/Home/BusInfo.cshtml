@@ -7,4 +7,10 @@
 
 <div class="row">
     <p>You entered postcode @Model.PostCode</p>
+    @foreach (var bus_stop in @Model.BusStop)
+    {
+        <p>@bus_stop</p>
+    }
 </div>
+
+<meta http-equiv="refresh" content="30">
