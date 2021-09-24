@@ -9,7 +9,16 @@
     <p>You entered postcode @Model.PostCode</p>
     @foreach (var bus_stop in @Model.BusStop)
     {
-        <p>@bus_stop</p>
+        if (bus_stop.buses.Count > 0)
+        {
+            <div class="bus-board">
+                <h3>@bus_stop.Show()</h3>
+                @foreach (var bus in bus_stop.buses.OrderBy(o => o.timeToStation).ToList())
+                {
+                    <p>@bus.Show()</p>
+                }
+            </div>
+        }
     }
 </div>
 

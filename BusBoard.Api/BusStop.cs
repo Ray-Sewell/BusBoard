@@ -1,20 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BusBoard.Api
 {
-    class BusStop
+    public class BusStop
     {
         public string id;
         public float distance;
-        public BusStop(string id, float distance)
+        public List<Bus> buses;
+        public BusStop(string id, float distance, List<Bus> buses)
         {
             this.id = id;
             this.distance = distance;
-        }
-        public String Show()
-        {
-            var info = "Bus Stop ID: " + id;
-            return info;
+            this.buses = buses;
         }
     }
 }

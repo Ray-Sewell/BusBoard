@@ -8,30 +8,16 @@ namespace BusBoard.Api
 {
     public class API
     {
-        public static List<string> APICall(string input)
+        public static List<BusStop> APICall(string input)
         {
-            PostCode postcode = FindPostCode(input);
-            List<string> return_list = new List<string>();
-
-            foreach (BusStop bus_stop in FindBusStops(postcode).OrderBy(o => o.distance).ToList().Take(2))
+            List<BusStop> response_list = new List<BusStop>();
+            foreach (BusStop bus_stop in FindBusStops(FindPostCode(input)))
             {
-                return_list.Add("");
-                return_list.Add(bus_stop.Show());
-                var bus_list = FindBus(bus_stop);
-
-                if (bus_list.Count <= 0)
-                {
-                    return_list.Add("No buses are available at this time");
-                }
-                else
-                {
-                    foreach (Bus bus in bus_list.OrderBy(o => o.timeToStation).ToList().Take(5))
-                    {
-                        return_list.Add(bus.Show());
-                    }
-                }
+                BusStop temp_bus = bus_stop;
+                temp_bus.buses = FindBus(bus_stop);
+                response_list.Add(temp_bus);
             }
-            return return_list;
+            return response_list;
         }
         static PostCode FindPostCode(String input)
         {

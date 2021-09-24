@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BusBoard.Api
 {
-    class Bus
+    public class Bus
     {
         public string vehicleId;
         public string stationName;

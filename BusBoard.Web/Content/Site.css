@@ -49,6 +49,7 @@ footer {
 }
 #main-body {
     width: 80vw;
+    max-width:900px;
     margin: 1em 1em 1em 1em;
 }
 
@@ -95,4 +96,15 @@ h1 {
 #postcode-form {
     display:flex;
     width: 5em;
+}
+
+.bus-board {
+    line-height: 0.5;
+    font-size: 1.2em;
+}
+
+h3 {
+    color: white;
+    background-color: #665687;
+    padding: 0.15em;
 }
